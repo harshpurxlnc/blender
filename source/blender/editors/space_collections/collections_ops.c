@@ -85,7 +85,7 @@ static int operator_collection_active(bContext *C)
 }
 
 /* -------------------------------------------------------------------- */
-/* operators */
+/* collection manager operators */
 
 static int collection_link_invoke(bContext *UNUSED(C), wmOperator *op, const wmEvent *UNUSED(event))
 {
@@ -239,13 +239,79 @@ static int rename_invoke(bContext *UNUSED(C), wmOperator *op, const wmEvent *UNU
 static void COLLECTIONS_OT_rename(wmOperatorType *ot)
 {
 	/* identifiers */
-	ot->name = "Select";
+	ot->name = "Rename";
 	ot->idname = "COLLECTIONS_OT_rename";
 	ot->description = "Rename active collection or override";
 
 	/* api callbacks */
 	ot->invoke = rename_invoke;
 	ot->poll = operator_not_master_collection_active;
+
+	/* flags */
+	ot->flag = OPTYPE_REGISTER | OPTYPE_UNDO;
+}
+
+/* -------------------------------------------------------------------- */
+/* property editor operators */
+
+static int stubs_invoke(bContext *UNUSED(C), wmOperator *op, const wmEvent *UNUSED(event))
+{
+	TODO_LAYER_COLLECTION_EDITOR;
+	BKE_report(op->reports, RPT_ERROR, "Operator not implemented yet");
+	return OPERATOR_CANCELLED;
+}
+
+static void COLLECTIONS_OT_objects_add(wmOperatorType *ot)
+{
+	/* identifiers */
+	ot->name = "Add Objects";
+	ot->idname = "COLLECTIONS_OT_objects_add";
+	ot->description = "Add selected objects to collection";
+
+	/* api callbacks */
+	ot->invoke = stubs_invoke;
+
+	/* flags */
+	ot->flag = OPTYPE_REGISTER | OPTYPE_UNDO;
+}
+
+static void COLLECTIONS_OT_objects_remove(wmOperatorType *ot)
+{
+	/* identifiers */
+	ot->name = "Remove Object";
+	ot->idname = "COLLECTIONS_OT_objects_remove";
+	ot->description = "Remove object from collection";
+
+	/* api callbacks */
+	ot->invoke = stubs_invoke;
+
+	/* flags */
+	ot->flag = OPTYPE_REGISTER | OPTYPE_UNDO;
+}
+
+static void COLLECTIONS_OT_objects_select(wmOperatorType *ot)
+{
+	/* identifiers */
+	ot->name = "Select Objects";
+	ot->idname = "COLLECTIONS_OT_objects_select";
+	ot->description = "Selected collection objects";
+
+	/* api callbacks */
+	ot->invoke = stubs_invoke;
+
+	/* flags */
+	ot->flag = OPTYPE_REGISTER | OPTYPE_UNDO;
+}
+
+static void COLLECTIONS_OT_objects_deselect(wmOperatorType *ot)
+{
+	/* identifiers */
+	ot->name = "Deselect Objects";
+	ot->idname = "COLLECTIONS_OT_objects_deselect";
+	ot->description = "Deselected collection objects";
+
+	/* api callbacks */
+	ot->invoke = stubs_invoke;
 
 	/* flags */
 	ot->flag = OPTYPE_REGISTER | OPTYPE_UNDO;
@@ -262,6 +328,11 @@ void collections_operatortypes(void)
 	WM_operatortype_append(COLLECTIONS_OT_collection_unlink);
 	WM_operatortype_append(COLLECTIONS_OT_collection_new);
 	WM_operatortype_append(COLLECTIONS_OT_override_new);
+
+	WM_operatortype_append(COLLECTIONS_OT_objects_add);
+	WM_operatortype_append(COLLECTIONS_OT_objects_remove);
+	WM_operatortype_append(COLLECTIONS_OT_objects_select);
+	WM_operatortype_append(COLLECTIONS_OT_objects_deselect);
 }
 
 void collections_keymap(wmKeyConfig *keyconf)
